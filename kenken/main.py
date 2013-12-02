@@ -54,7 +54,7 @@ class KenKenPuzzle:
     def print_candidates(self):
         """Print the ordered candidates in tab-separated format."""
         if self.is_solved:
-            print "The puzzle is solved!"
+            print "Solution:"
         for i in range(self.size):
             row = self.get_slice(i + 1, 'row')
             ordered = [str(row[cell]) for cell in sorted(row.keys())]
@@ -80,21 +80,8 @@ def load_puzzle(filename):
     return KenKenPuzzle(puzlint.validate_kenken(raw_puzzle))
 
 
-def comment(depth):
-    """Say something witty in response to how deep the search has gone."""
-    comments = []
-    comments.append("Here we go! Starting to solve.")
-    comments.append("I don't like making choices, but sometimes one must.")
-    comments.append("It's getting pretty deep out here!")
-    if depth < len(comments):
-        return comments[depth]
-    else:
-        return "Depth: " + str(depth)
-
-
 def solve(kenken, depth=0):
     """Run cageops, rowops, and recursive search if necessary."""
-    print comment(depth)
     while not kenken.is_solved() and not kenken.has_conflicts():
         snapshot = copy.deepcopy(kenken.candidates)
         kenken = cageops.reduce_cages(kenken)
